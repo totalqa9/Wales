@@ -20,7 +20,7 @@ import jxl.read.biff.BiffException;
 public class ViewInformationTests {
 	
 	WebDriver driver;
-	Utility util;
+	HelperClass helperObj;
 	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\loginTestData.xls";
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
 	String NavTab = "Information";
@@ -40,10 +40,10 @@ public class ViewInformationTests {
 	public void validateInformationMsg(String uName, String password)
 	{
 		instantiateDriver();
-		util = new Utility(driver);
-		util.launchApplicationURL(URL);
-		util.login(uName, password);
-		util.moduleNavigation(NavTab);
+		helperObj = new HelperClass(driver);
+		helperObj.launchApplicationURL(URL);
+		helperObj.login(uName, password);
+		helperObj.moduleNavigation(NavTab);
 		boolean result = validateInformation();
 		Assert.assertTrue(result);
 	}
@@ -51,7 +51,7 @@ public class ViewInformationTests {
 	@DataProvider (name="testData")
 	public String [][] loginData() throws BiffException, IOException{
 		
-		String [][] loginData = HelperClass.readXls(filePath);
+		String [][] loginData = Utility.readXls(filePath);
 		return loginData;
 	}
 	

@@ -20,18 +20,21 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class ScheduleAppointmentTests {
 	WebDriver driver ;
-	Utility util;
+	HelperClass helperObj;
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
 	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\loginTestData.xls";
+	
+	
+	
 
 	@Test(dataProvider = "testData", description="US_004 Schedule Appointment",groups={"US_004","regression","sanity","patientmodule"})
 	public void validateAppointmentDetails(String uName, String password) throws Exception
 	{
 		instantiateDriver();
-		util = new Utility(driver);
-		util.launchApplicationURL(URL);
-		util.login(uName, password);
-		util.moduleNavigation("Schedule Appointment");
+		helperObj = new HelperClass(driver);
+		helperObj.launchApplicationURL(URL);
+		helperObj.login(uName, password);
+		helperObj.moduleNavigation("Schedule Appointment");
 		clickOnCreateAppointmentButton();
 		HashMap<String,String> hMap = selectDoctor("Dr.Charlie");
 		SoftAssert sa = new SoftAssert();
@@ -44,7 +47,7 @@ public class ScheduleAppointmentTests {
 	@DataProvider (name="testData")
 	public String [][] logiData() throws Exception, IOException{
 
-		String [][] loginData = HelperClass.readXls(filePath);
+		String [][] loginData = Utility.readXls(filePath);
 		return loginData;
 	}
 
@@ -58,8 +61,8 @@ public class ScheduleAppointmentTests {
 		HashMap<String,String> hMap= new HashMap<String,String>();
 		Thread.sleep(5000);
 		driver.findElement(By.xpath("//h4[contains(text(),'"+doctorName+"')]/ancestor::td/button[@id='opener']")).click();
-		driver = util.switchToAFrameAvailable("myframe",20);
-		String dateOfAppointment = util.getFutureDate(20);
+		driver = helperObj.switchToAFrameAvailable("myframe",20);
+		String dateOfAppointment = Utility.getFutureDate(20);
 		driver.findElement(By.id("datepicker")).sendKeys(dateOfAppointment);
 		String time = "10Am";
 		new Select(driver.findElement(By.id("time"))).selectByVisibleText(time);
@@ -81,7 +84,7 @@ public class ScheduleAppointmentTests {
 	public boolean validateAppointmentDetailsinHomePage(HashMap<String,String> hMap)
 	{
 		boolean result = false;
-		util.moduleNavigation("HOME");
+		helperObj.moduleNavigation("HOME");
 		if( hMap.get("dateOfAppointment").equals(driver.findElement(By.xpath("//table[@class='table']//tr[1]/td[1]")).getText())
 				&& hMap.get("time").equals(driver.findElement(By.xpath("//table[@class='table']//tr[1]/td[2]")).getText())
 				&& hMap.get("symptoms").equals(driver.findElement(By.xpath("//table[@class='table']//tr[1]/td[3]")).getText())
@@ -95,7 +98,7 @@ public class ScheduleAppointmentTests {
 	public boolean validateAppointmentDetailsinSchedulePage(HashMap<String,String> hMap)
 	{
 		boolean result = false;
-		util.moduleNavigation("Schedule Appointment");
+		helperObj.moduleNavigation("Schedule Appointment");
 		WebElement we1 = driver.findElement(By.xpath("//a[contains(text(),'Time')]"));
 		WebElement we2 = driver.findElement(By.xpath("//a[contains(text(),'Provider')]"));
 		WebElement we3 = driver.findElement(By.xpath("//a[contains(text(),'Symptoms')]"));

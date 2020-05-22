@@ -4,7 +4,7 @@ package org.iit.mmp.adminmodule.tests;
 
 import java.util.HashMap;
 
-import org.iit.mmp.utility.Utility;
+import org.iit.mmp.helper.HelperClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,7 +15,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class LoginAdminTests {
 
 	WebDriver driver;
-	Utility util;
+	HelperClass helperObj;
 	String URL = "http://96.84.175.78/MMP-Release2-Admin-Build.2.1.000/login.php";
 	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\testData.xlsx";
 	String moduleName = "Logout";
@@ -28,12 +28,12 @@ public class LoginAdminTests {
 	//public void loginAdminTest(String uName, String password){
 		public void loginAdminTest(){
 		instantiateDriver();
-		util = new Utility(driver);
+		helperObj = new HelperClass(driver);
 		hMap = new HashMap<String, String> ();
-		util.launchApplicationURL(URL);
+		helperObj.launchApplicationURL(URL);
 		//getLoginPage();
-		util.AdminLogin("shak", "9ol.<KI*");
-		util.AdminModuleNavigation("Messages");
+		helperObj.AdminLogin("shak", "9ol.<KI*");
+		helperObj.AdminModuleNavigation("Messages");
 		HashMap <String, String > hMap = retrieveRecentMessageDetails();
 		
 		

@@ -23,14 +23,15 @@ public class RegistrationPatientTests {
 	WebDriver driver;
 	Random rand = new Random();
 	HashMap<String,String> hMap = new HashMap<String,String>();
+	HelperClass helperObj;
 	
 	@Test(description="US_001 Registration of the Page",groups={"US_001","regression","sanity","patientmodule"})
 	public void validateRegistration()
 	{  
 		 
 		instantiateDriver();
-		Utility util = new Utility(driver);
-		util.launchApplicationURL("http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php");
+		helperObj = new HelperClass(driver);
+		helperObj.launchApplicationURL("http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php");
 		clickRegisterButton();
 		fillData();
 		clickOnSaveButton();
@@ -82,7 +83,7 @@ public class RegistrationPatientTests {
 	public void enterLicense()
 	{
 	//	String licenseValue = 9999999+ rand.nextInt(1000000)+"";
-		String licenseValue = HelperClass.generateRandom(7, 1000000);
+		String licenseValue = Utility.generateRandom(7, 1000000);
 		driver.findElement(By.id("license")).sendKeys(licenseValue);
 		hMap.put("License", licenseValue);
 		

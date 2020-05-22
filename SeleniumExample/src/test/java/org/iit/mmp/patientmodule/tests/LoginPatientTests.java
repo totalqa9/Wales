@@ -16,6 +16,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class LoginPatientTests {
 	
 	WebDriver driver;
+	HelperClass helperObj;
 	Utility util;
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/";
 	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\testData.xlsx";
@@ -27,17 +28,17 @@ public class LoginPatientTests {
 		
 		
 		instantiateDriver();
-		util = new Utility(driver);
-		util.launchApplicationURL(URL);
+		helperObj = new HelperClass(driver);
+		helperObj.launchApplicationURL(URL);
 		getLoginpage();
-		util.login(uName, password);
-		util.moduleNavigation(moduleName);
+		helperObj.login(uName, password);
+		helperObj.moduleNavigation(moduleName);
 				
 	}
 	@DataProvider (name="testData")
 	public String[][] loginData() throws IOException{
 		
-		String [][] loginData = HelperClass.readXlsx(filePath);
+		String [][] loginData = Utility.readXlsx(filePath);
 		return loginData;
 		
 	}

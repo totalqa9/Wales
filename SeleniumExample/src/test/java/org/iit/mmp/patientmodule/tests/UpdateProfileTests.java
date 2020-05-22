@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.iit.mmp.helper.HelperClass;
+import org.iit.mmp.utility.Utility;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -27,6 +28,7 @@ public class UpdateProfileTests {
 	WebDriver driver;
 	WebElement we;
 	HashMap <String, String> hMap;
+	HelperClass helperObj;
 	//HashMap <String, String> primaryHMap;
 	Random rand;
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
@@ -62,7 +64,7 @@ public class UpdateProfileTests {
 	@DataProvider(name="testData")
 	public String[][] loginTestData() throws Exception, IOException{
 		
-		String[][]  loginData = HelperClass.readXlsx(loginDataFilePathXLSX);
+		String[][]  loginData = Utility.readXlsx(loginDataFilePathXLSX);
 		return loginData;
 		
 	}
@@ -421,7 +423,7 @@ public class UpdateProfileTests {
 
 		int noOfChars = 7;
 		we = driver.findElement(By.id("city"));
-		String cityValue = HelperClass.getRandomString(noOfChars);
+		String cityValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(cityValue);
 		hMap.put("City", cityValue);
@@ -443,7 +445,7 @@ public class UpdateProfileTests {
 	public void editState(){
 
 		we = driver.findElement(By.id("state"));
-		String stateValue = HelperClass.getRandomState();
+		String stateValue = Utility.getRandomState();
 		we.clear();
 		we.sendKeys(stateValue);
 		hMap.put("State", stateValue);
@@ -466,7 +468,7 @@ public class UpdateProfileTests {
 
 		int noOfDigits = 5;
 		we = driver.findElement(By.id("zip"));
-		String zipCodeValue =  HelperClass.getRandomNoOfDigits(noOfDigits)+"";
+		String zipCodeValue =  Utility.getRandomNoOfDigits(noOfDigits)+"";
 		we.clear();
 		we.sendKeys(zipCodeValue);
 		hMap.put("ZipCode", zipCodeValue);
@@ -491,7 +493,7 @@ public class UpdateProfileTests {
 		we = driver.findElement(By.id("proinfo"));
 		//String primaryProviderInfo = we.getText();
 		//primaryHMap.put("ProviderInfo", primaryProviderInfo);
-		String providerInfoValue = HelperClass.getRandomString(noOfChars);
+		String providerInfoValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(providerInfoValue);
 		hMap.put("ProviderInfo", providerInfoValue);
@@ -503,7 +505,7 @@ public class UpdateProfileTests {
 		we = driver.findElement(By.id("Insinfo"));
 		//String primaryInsuranceInfo =  we.getAttribute("value");
 		//primaryHMap.put("InsuranceInfo", primaryInsuranceInfo);
-		String providerInsuranceInfoValue = HelperClass.getRandomString(noOfChars);
+		String providerInsuranceInfoValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(providerInsuranceInfoValue);
 		hMap.put("InsuranceInfo", providerInsuranceInfoValue);

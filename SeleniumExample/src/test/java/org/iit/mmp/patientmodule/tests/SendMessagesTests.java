@@ -20,12 +20,12 @@ import jxl.read.biff.BiffException;
 public class SendMessagesTests {
 
 	WebDriver driver;
-	Utility util;
+	HelperClass helperObj;
 	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\loginTestData.xls";
 	String URL ="http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
 	String urlAdminLogin = "http://96.84.175.78/MMP-Release2-Admin-Build.2.1.000/login.php";
-	String subject = "";
-	String message = "";
+	String subject = "Prescription";
+	String message = "Please send the prescription";
 	String actualMsg="";
 	String expectedMsg = "Messages Successfully sent.";
 	//HashMap <String, String> hMapExpected;
@@ -34,19 +34,19 @@ public class SendMessagesTests {
 	public void sendMessage(String uName, String password){
 		
 		instantiateDriver();
-		util = new Utility(driver);
-		util.login(uName, password);
-		util.moduleNavigation("Messages");
+		helperObj = new HelperClass(driver);
+		helperObj.login(uName, password);
+		helperObj.moduleNavigation("Messages");
 		sendMessage();
 		validateMessageFromPatientModule();
-		util.moduleNavigation("Logout");
+		helperObj.moduleNavigation("Logout");
 		//validateMessageFromAdminModule(uName, password);
 	}
 	
 	@DataProvider (name="testData")
 	public String [][] loginData() throws BiffException, IOException{
 		
-		String [][] loginData = HelperClass.readXls(filePath);
+		String [][] loginData = Utility.readXls(filePath);
 		return loginData;
 		
 	}
@@ -72,18 +72,15 @@ public class SendMessagesTests {
 	
 	public void validateMessageFromAdminModule(String uName, String password){
 		
-		util.launchApplicationURL(urlAdminLogin);
-		util.AdminLogin(uName, password);
-		util.moduleNavigation("Messages");
+		helperObj.launchApplicationURL(urlAdminLogin);
+		helperObj.AdminLogin(uName, password);
+		helperObj.moduleNavigation("Messages");
 		LoginAdminTests adminObj = new LoginAdminTests();
 		HashMap <String, String> hMap = adminObj.retrieveRecentMessageDetails();
-		
-		
-		
-		
-		
-		
-		
+		if(hMap.get("Subject").equals(subject) && hMap.get("Description").equals(message)){
+			
+			System.out.println("Passed");
+		}
 	}
 	public void instantiateDriver(){
 		
