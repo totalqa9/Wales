@@ -1,11 +1,12 @@
 package org.iit.mmp.patientmodule.tests;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.io.IOException;
 import java.util.HashMap;
 import org.iit.mmp.base.TestBase;
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.patientmodule.pages.ScheduleAppointmentPage;
-import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 public class ScheduleAppointmentTests extends TestBase{
 	 
@@ -26,9 +27,9 @@ public class ScheduleAppointmentTests extends TestBase{
 		helperObj.captureScreenshot("US_005_CreateAppointment");
 		HashMap<String,String> hMap = sPage.selectDoctor("Dr.Charlie");
 		SoftAssert sa = new SoftAssert();
-		sa.assertTrue(sPage.validateAppointmentDetailsinHomePage(hMap));
+		AssertJUnit.assertTrue(sPage.validateAppointmentDetailsinHomePage(hMap));
 		helperObj.captureScreenshot("US_005_validateAppointmentHomePage");
-		sa.assertTrue(sPage.validateAppointmentDetailsinSchedulePage(hMap));
+		AssertJUnit.assertTrue(sPage.validateAppointmentDetailsinSchedulePage(hMap));
 		helperObj.captureScreenshot("US_005_validateAppointmentSchedulePage");
 		sa.assertAll();
 	}
