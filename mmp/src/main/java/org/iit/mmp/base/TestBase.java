@@ -11,7 +11,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 public class TestBase {
 	protected WebDriver driver;
 	@BeforeClass
-	public void instantiateDriver() throws IOException
+	public void instantiateDriver() throws IOException 
 	{
 		
 		ProjectConfiguration pConfig = new ProjectConfiguration();	
