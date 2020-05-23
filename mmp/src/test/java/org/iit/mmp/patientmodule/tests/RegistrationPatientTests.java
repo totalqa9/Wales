@@ -1,5 +1,7 @@
 package org.iit.mmp.patientmodule.tests;
 
+import org.testng.annotations.Test;
+import org.testng.AssertJUnit;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,8 +14,6 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 public class RegistrationPatientTests {
 	
@@ -37,7 +37,7 @@ public class RegistrationPatientTests {
 		helperObj.captureScreenshot("US_001_ClickSaveButton");
 		String actual = readSuccessMessage();
 		String expected ="Thank you for registering with MMP.";
-		Assert.assertEquals(actual, expected);
+		AssertJUnit.assertEquals(actual, expected);
 	}
 	 
 	public String readSuccessMessage()
