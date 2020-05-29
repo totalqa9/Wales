@@ -1,46 +1,50 @@
 package org.iit.mmp.patientmodule.tests;
 
 import java.io.IOException;
-import java.util.HashMap;
 
-import org.iit.mmp.adminmodule.tests.LoginAdminTests;
+import org.iit.mmp.base.TestBase;
 import org.iit.mmp.helper.HelperClass;
+import org.iit.mmp.patientmodule.pages.SendMessagePage;
 import org.iit.mmp.utility.Utility;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
 import jxl.read.biff.BiffException;
 
-public class SendMessagesTests {
+public class SendMessagesTests extends TestBase{
 
-	WebDriver driver;
 	HelperClass helperObj;
-	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\loginTestData.xls";
+	SendMessagePage SMPage;
+	
+	String filePath = "C:\\Users\\Nithyakalyani\\iitMMPGit\\SeleniumExample\\mmpData\\loginTestData.xls";
 	String URL ="http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
 	String urlAdminLogin = "http://96.84.175.78/MMP-Release2-Admin-Build.2.1.000/login.php";
-	String subject = "Prescription";
-	String message = "Please send the prescription";
-	String actualMsg="";
+	String name;
+	String subject = "Symptoms";
+	String message = "Please verify the symptoms";
+	String actualMsg;
 	String expectedMsg = "Messages Successfully sent.";
-	//HashMap <String, String> hMapExpected;
+	String adminUName = "shak";
+	String adminPassword = "9ol.<KI*";
+	
 	
 	@Test (dataProvider = "testData", description="US_009 SendMessageTests",groups={"US_009","regression","sanity","patientmodule"})
-	public void sendMessage(String uName, String password){
+	public void sendMessage(String uName, String password) throws Exception{
 		
 		instantiateDriver();
 		helperObj = new HelperClass(driver);
+		helperObj.launchApplicationURL(URL);
 		helperObj.login(uName, password);
+		SMPage = new SendMessagePage(driver);
+		name = SMPage.retrieveFirstName();
 		helperObj.moduleNavigation("Messages");
-		sendMessage();
-		validateMessageFromPatientModule();
+		
+		SMPage.sendMessage(subject, message);
+		actualMsg = SMPage.validateSendMessage();
+		Assert.assertEquals(actualMsg, expectedMsg);
 		helperObj.moduleNavigation("Logout");
-		//validateMessageFromAdminModule(uName, password);
+		Assert.assertTrue(SMPage.validateMessageFromAdminModule(adminUName, adminPassword, urlAdminLogin, name, subject, message));
+		
 	}
 	
 	@DataProvider (name="testData")
@@ -50,42 +54,6 @@ public class SendMessagesTests {
 		return loginData;
 		
 	}
-	public void sendMessage(){
-		
-		
-		driver.findElement(By.id("subject")).sendKeys(subject);
-		driver.findElement(By.id("message")).sendKeys(message);
-		driver.findElement(By.xpath("//input[@value='Send']")).click();
-		try{
-			Alert alert = driver.switchTo().alert();
-			actualMsg = alert.getText();
-			alert.accept();
-		} catch(Exception e){
-			System.out.println("Alert Not Present : "+e.getMessage());
-		}
-	}
 	
-	public void validateMessageFromPatientModule(){
-		
-		Assert.assertEquals(actualMsg, expectedMsg);
-	}
 	
-	public void validateMessageFromAdminModule(String uName, String password){
-		
-		helperObj.launchApplicationURL(urlAdminLogin);
-		helperObj.AdminLogin(uName, password);
-		helperObj.moduleNavigation("Messages");
-		LoginAdminTests adminObj = new LoginAdminTests();
-		HashMap <String, String> hMap = adminObj.retrieveRecentMessageDetails();
-		if(hMap.get("Subject").equals(subject) && hMap.get("Description").equals(message)){
-			
-			System.out.println("Passed");
-		}
-	}
-	public void instantiateDriver(){
-		
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
-		driver.manage().window().maximize();
-	}
 }

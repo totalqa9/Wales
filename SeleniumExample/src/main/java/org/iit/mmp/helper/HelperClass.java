@@ -2,8 +2,10 @@ package org.iit.mmp.helper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -14,29 +16,29 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HelperClass {
 
-	
+
 	int i = 0;
 	WebDriver driver;
-	/*String uName = "jasmine";
-	String pword = "9ol.<KI*";*/
-
-	public HelperClass(WebDriver driver)
-	{
+	
+	public HelperClass(WebDriver driver){
+		
 		this.driver = driver;
+		
 	}
-	public void moduleNavigation(String moduleName)
+	
+	public  void moduleNavigation(String moduleName)
 	{
 		driver.findElement(By.xpath("//span[contains(text(),'"+moduleName+"')]")).click();
 	}
-	 
-	public void launchApplicationURL(String url)
-	{
+
+	public  void launchApplicationURL(String url)	{
+
 		driver.get(url);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		 
+
 	}
 	public void login(String uName, String password){
-		
+
 		System.out.println("login");
 		//driver.findElement(By.linkText("Patient Login")).click();
 		//driver.findElement(By.linkText("Login")).click();
@@ -52,9 +54,9 @@ public class HelperClass {
 
 	}
 	public void AdminModuleNavigation(String moduleName){
-		
+
 		driver.findElement(By.xpath("//span[contains(text(),'"+moduleName+"')]")).click();
-		
+
 	}
 	public void takeScreenShot(String fLocation){
 
@@ -69,12 +71,25 @@ public class HelperClass {
 			e.printStackTrace();
 		}
 	} 
+
+	public void captureScreenshot(String tc_Name) throws IOException
+	{
+		
+		TakesScreenshot tsh = (TakesScreenshot)driver;
+		File sourceFile = tsh.getScreenshotAs(OutputType.FILE);
+		System.out.println(sourceFile.getAbsolutePath());
+		String destinationPath = System.getProperty("user.dir")+"\\screenshots\\"+tc_Name+"_"+
+											Calendar.getInstance().getTimeInMillis()%1000000000+".jpg";
+		File destFile = new File(destinationPath); 
+		FileUtils.copyFile(sourceFile,destFile);
+		
+	}
 	public WebDriver switchToAFrameAvailable(String frameId,int timeinSecs)
 	{
 		WebDriverWait wait = new WebDriverWait(driver,timeinSecs);
 		driver = wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameId));
 		return driver;
 	}
-	
-	
+
+
 }

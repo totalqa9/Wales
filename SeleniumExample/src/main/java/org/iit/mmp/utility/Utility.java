@@ -85,6 +85,7 @@ public class Utility {
 	 */
 	public static String getRandomString(int noOfChars){
 
+		rand = new Random();
 		String s = "";
 		int bound = noOfChars;
 		//char[] charArray = new char[bound];
@@ -92,7 +93,7 @@ public class Utility {
 			char c = (char) ('a'+rand.nextInt(26));
 			s = s+c;
 		}
-
+		System.out.println("getRandomString Method returning "+s);
 		return s;
 	}
 	

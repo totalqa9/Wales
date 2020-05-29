@@ -11,14 +11,10 @@ import org.openqa.selenium.support.ui.Select;
 
 public class ScheduleAppointmentPage {
 	
+	WebDriver driver;
+	HelperClass helperObj;
 	
 	 //Page elements
-	
-	WebDriver driver ;
-	HelperClass helperObj;
-	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
-	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\loginTestData.xls";
-	
 	By createAppointmentButton = By.xpath("//input[@value='Create new appointment']");
 	By datePickerID = By.id("datepicker");
 	By timeID = By.id("time");
@@ -38,14 +34,14 @@ public class ScheduleAppointmentPage {
 	
 	
 	 // Page Initialization through constructor
-	
-	public ScheduleAppointmentPage(WebDriver driver){
-		
+	public ScheduleAppointmentPage(WebDriver driver)
+	{
 		this.driver = driver;
 		helperObj = new HelperClass(driver);
 	}
-	
+		
 	// Page Actions
+	
 	
 	public void clickOnCreateAppointmentButton() {
 		

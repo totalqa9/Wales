@@ -10,7 +10,7 @@ public class ProjectConfiguration {
 		
 		Properties pro = new Properties();
 		String filePath = System.getProperty("user.dir")+"\\config\\config.properties";
-		System.out.println(filePath);
+		System.out.println("Printing the file path from loadProperties method "+filePath);
 		File src = new File(filePath);
 		FileInputStream fis = new FileInputStream(src);
 		pro.load(fis);
