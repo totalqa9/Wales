@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.BeforeClass;
 import io.github.bonigarcia.wdm.WebDriverManager;
-public class TestBase {
+public class TestBase{
 	protected WebDriver driver;
 	@BeforeClass
 	public void instantiateDriver() throws IOException 
