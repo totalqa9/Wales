@@ -286,10 +286,13 @@ public class UpdateProfilePage {
 	public void editSSN(){
 
 		we = driver.findElement(SSNTB);
-		String ssnValue = Calendar.getInstance().getTimeInMillis()%1000000000+"";
+		//String ssnValue = Calendar.getInstance().getTimeInMillis()%1000000000+"";
+		int noOfDigits = 9;
+		String ssnValue = Utility.getRandomNoOfDigits(noOfDigits)+"";
 		we.clear();
 		we.sendKeys(ssnValue);
 		hMap.put("SSN", ssnValue);
+		System.out.println("SSN is: "+ssnValue);
 		
 	}
 	//How to check if it's already existing in the the database? --- The app is telling already.
