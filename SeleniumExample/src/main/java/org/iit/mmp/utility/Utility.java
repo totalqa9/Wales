@@ -14,7 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
+//import jxl.read.biff.BiffException;
 
 public class Utility {
 	
@@ -116,7 +116,7 @@ public class Utility {
 */
 	}
 
-	public static String[][] readXls(String filePath) throws BiffException, IOException{
+	public static String[][] readXls(String filePath) throws Exception, IOException{
 		
 		File srcFile = new File(filePath);
 		Workbook wb = Workbook.getWorkbook(srcFile);

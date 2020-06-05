@@ -48,6 +48,8 @@ public class UpdateProfilePage {
 	By insuranceInfoTB = By.id("Insinfo");
 	By saveBtn = By.id("Sbtn");
 	
+	By errorLabels = By.tagName("p");
+	
 	public UpdateProfilePage(WebDriver driver){
 		
 		this.driver = driver;
@@ -284,10 +286,13 @@ public class UpdateProfilePage {
 	public void editSSN(){
 
 		we = driver.findElement(SSNTB);
-		String ssnValue = Calendar.getInstance().getTimeInMillis()%1000000000+"";
+		//String ssnValue = Calendar.getInstance().getTimeInMillis()%1000000000+"";
+		int noOfDigits = 9;
+		String ssnValue = Utility.getRandomNoOfDigits(noOfDigits)+"";
 		we.clear();
 		we.sendKeys(ssnValue);
 		hMap.put("SSN", ssnValue);
+		System.out.println("SSN is: "+ssnValue);
 		
 	}
 	//How to check if it's already existing in the the database? --- The app is telling already.
@@ -533,7 +538,7 @@ public class UpdateProfilePage {
 		String msg = "";
 		System.out.println("Inside the CheckError method");
 		String errElement = "";
-		List <WebElement> errElements = driver.findElements(By.tagName("p"));
+		List <WebElement> errElements = driver.findElements(errorLabels);
 		System.out.println("No. Of Error Elements Present "+errElements.size());
 		for (WebElement webElement : errElements) {
 
@@ -549,7 +554,7 @@ public class UpdateProfilePage {
 					helperObj.captureScreenshot("license");
 				}
 				if(webElement.getText().contains("state")){
-					String state = (hMap.get("State")).replaceAll("\\s", "");
+					String state = (hMap.get("State")).replaceAll("\\s", "");//remove the space between the words
 					driver.findElement(By.xpath(xpath)).clear();
 					driver.findElement(By.xpath(xpath)).sendKeys(state);
 					hMap.put("State", state);

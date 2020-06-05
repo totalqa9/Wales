@@ -9,7 +9,7 @@ import org.iit.mmp.utility.Utility;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import jxl.read.biff.BiffException;
+//import jxl.read.biff.BiffException;
 
 public class SendMessagesTests extends TestBase{
 
@@ -48,7 +48,7 @@ public class SendMessagesTests extends TestBase{
 	}
 	
 	@DataProvider (name="testData")
-	public String [][] loginData() throws BiffException, IOException{
+	public String [][] loginData() throws Exception, IOException{
 		
 		String [][] loginData = Utility.readXls(filePath);
 		return loginData;
