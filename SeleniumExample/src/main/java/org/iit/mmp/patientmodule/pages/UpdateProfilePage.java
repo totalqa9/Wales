@@ -71,6 +71,7 @@ public class UpdateProfilePage {
 		driver.findElement(By.xpath(xpath)).click();
 	}
 
+	//Added this
 	public void closeDriver(){
 		driver.close();
 	}
