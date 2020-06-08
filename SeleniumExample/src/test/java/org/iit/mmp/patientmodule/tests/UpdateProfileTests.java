@@ -41,6 +41,7 @@ public class UpdateProfileTests extends TestBase{
 		UPPage.editRandomFields();
 		UPPage.validateUpdatingRandomFields();
 		UPPage.clickOnNavigationTab("Logout");
+		UPPage.closeDriver();
 	}
 	
 	@DataProvider(name="testData")

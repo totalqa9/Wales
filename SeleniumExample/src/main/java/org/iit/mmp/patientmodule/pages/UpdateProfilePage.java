@@ -71,7 +71,9 @@ public class UpdateProfilePage {
 		driver.findElement(By.xpath(xpath)).click();
 	}
 
-	
+	public void closeDriver(){
+		driver.close();
+	}
 	public void loginTogetHomePage(String uName, String password){
 
 		driver.findElement(userNameTB).sendKeys(uName);

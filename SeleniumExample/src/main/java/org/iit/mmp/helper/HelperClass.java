@@ -74,7 +74,7 @@ public class HelperClass {
 
 	public void captureScreenshot(String tc_Name) throws IOException
 	{
-		
+		System.out.println("Inside Capturing Screenshot method");
 		TakesScreenshot tsh = (TakesScreenshot)driver;
 		File sourceFile = tsh.getScreenshotAs(OutputType.FILE);
 		System.out.println(sourceFile.getAbsolutePath());
@@ -82,6 +82,19 @@ public class HelperClass {
 											Calendar.getInstance().getTimeInMillis()%1000000000+".jpg";
 		File destFile = new File(destinationPath); 
 		FileUtils.copyFile(sourceFile,destFile);
+		System.out.println(destinationPath);
+		System.out.println("Exiting Screenshot");
+		/*TakesScreenshot ts = (TakesScreenshot) driver;
+		File srcFile = ts.getScreenshotAs(OutputType.FILE);
+		System.out.println(srcFile.getAbsolutePath());
+		File destFile = new File(fLocation);
+		try {
+			FileHandler.copy(srcFile, destFile);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		*/
 		
 	}
 	public WebDriver switchToAFrameAvailable(String frameId,int timeinSecs)
