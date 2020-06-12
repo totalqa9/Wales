@@ -1,3 +1,4 @@
+
 package org.iit.mmp.patientmodule.tests;
 
 import java.io.IOException;
@@ -9,7 +10,7 @@ import org.iit.mmp.utility.Utility;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-//import jxl.read.biff.BiffException;
+import jxl.read.biff.BiffException;
 
 public class LoginPatientTests extends TestBase{
 	
@@ -17,7 +18,7 @@ public class LoginPatientTests extends TestBase{
 	LoginPatientPage loginPage;
 	
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/";
-	String filePath = "C:\\Users\\Nithyakalyani\\iitMMPGit\\SeleniumExample\\mmpData\\loginTestData.xls";
+	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
 	String moduleName = "Logout";
 	
 	
@@ -35,7 +36,7 @@ public class LoginPatientTests extends TestBase{
 	}
 	
 	@DataProvider (name="testData")
-	public String[][] loginData() throws IOException, Exception{
+	public String[][] loginData() throws IOException, BiffException{
 		
 		String [][] loginData = Utility.readXls(filePath);
 		return loginData;

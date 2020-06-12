@@ -7,9 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -74,7 +76,7 @@ public class HelperClass {
 
 	public void captureScreenshot(String tc_Name) throws IOException
 	{
-		
+		System.out.println("Inside Capturing Screenshot method");
 		TakesScreenshot tsh = (TakesScreenshot)driver;
 		File sourceFile = tsh.getScreenshotAs(OutputType.FILE);
 		System.out.println(sourceFile.getAbsolutePath());
@@ -82,6 +84,8 @@ public class HelperClass {
 											Calendar.getInstance().getTimeInMillis()%1000000000+".jpg";
 		File destFile = new File(destinationPath); 
 		FileUtils.copyFile(sourceFile,destFile);
+		System.out.println(destinationPath);
+		System.out.println("Exiting Screenshot");
 		
 	}
 	public WebDriver switchToAFrameAvailable(String frameId,int timeinSecs)
@@ -90,6 +94,13 @@ public class HelperClass {
 		driver = wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameId));
 		return driver;
 	}
+	public void highLightElement(WebElement ele){
+		
+		JavascriptExecutor js =(JavascriptExecutor)driver;
+
+		js.executeScript("arguments[0].setAttribute('style', 'background:yellow; border:2px solid red;')", ele);
+		
+		}
 
 
 }
