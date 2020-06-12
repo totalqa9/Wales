@@ -14,7 +14,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
+
 import jxl.read.biff.BiffException;
+
+
 
 public class Utility {
 	
@@ -41,11 +44,13 @@ public class Utility {
 	public static String getRandomState(){
 
 		String state = "";
+
 		String[] sArray = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
 				"Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine","Maryland", "Massachusetts", "Michigan",
 				"Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
 				"North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
 				"Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming" };
+
 		int num = rand.nextInt(49);
 		state = sArray[num];
 		System.out.println(state);		
@@ -90,9 +95,10 @@ public class Utility {
 		System.out.println("getRandomString Method returning "+s);
 		return s;
 	}
+
 		
 	public static String[][] readXls(String filePath) throws BiffException, IOException{
-		
+
 		File srcFile = new File(filePath);
 		Workbook wb = Workbook.getWorkbook(srcFile);
 		Sheet sheet = wb.getSheet("MMPLogin");

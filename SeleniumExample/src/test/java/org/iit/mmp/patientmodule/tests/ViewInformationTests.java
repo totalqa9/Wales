@@ -1,5 +1,4 @@
 package org.iit.mmp.patientmodule.tests;
-
 import java.io.IOException;
 
 import org.iit.mmp.base.TestBase;
@@ -11,12 +10,14 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import jxl.read.biff.BiffException;
 
+
 public class ViewInformationTests extends TestBase{
 	
 	HelperClass helperObj;
 	ViewInformationPage VIPage;
-	
+
 	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
+
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
 	String NavTab = "Information";
 	
@@ -35,6 +36,7 @@ public class ViewInformationTests extends TestBase{
 
 	@DataProvider (name="testData")
 	public String [][] loginData() throws BiffException, IOException{
+
 		
 		String [][] loginData = Utility.readXls(filePath);
 		return loginData;
