@@ -12,23 +12,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import org.testng.asserts.SoftAssert;
-
-
 
 public class UpdateProfilePage {
-	
+
 	WebDriver driver;
 	HelperClass helperObj;
-	
+
 	HashMap <String, String> hMap;
+	HashMap <String, String> hMap1;
 	Random rand;
-	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
 	String actual = "Your Profile has been updated.";
-	String expected = "";
-	int fName, lName, license, ssn, address, age, weight, height, city, state, zipCode; 
+	String expected;
+	//int fName, lName, license, ssn, address, age, weight, height, city, state, zipCode; 
 	WebElement we;
-	
+
 	By userNameTB = By.id("username");
 	By passwordTB = By.id("password");
 	By submitBtn = By.name("submit");
@@ -47,27 +44,31 @@ public class UpdateProfilePage {
 	By providerInfoTB = By.id("proinfo");
 	By insuranceInfoTB = By.id("Insinfo");
 	By saveBtn = By.id("Sbtn");
-	
+
 	public UpdateProfilePage(WebDriver driver){
-		
+
 		this.driver = driver;
 		helperObj = new HelperClass(driver);
 		hMap = new HashMap <String, String> ();
+		hMap1 = new HashMap <String, String> ();
 		rand = new Random();
 	}
-		
-	public void validateAfterLogout(String uName, String password) {
 
+	public boolean validateAfterLogout(String uName, String password, String URL) {
+
+		boolean result = false;
 		clickOnNavigationTab("Logout");
 		driver.navigate().to(URL);
 		loginTogetHomePage(uName, password);
 		clickOnNavigationTab("Profile");
-		validateUpdating();
+		result = validateUpdating();
+		return result;
 
 	}
 	public void clickOnNavigationTab(String tabTitle){
-		
+
 		String xpath = "//span[contains(text(),'"+tabTitle+"')]";	
+		helperObj.highLightElement(driver.findElement(By.xpath(xpath)));
 		driver.findElement(By.xpath(xpath)).click();
 	}
 
@@ -81,10 +82,11 @@ public class UpdateProfilePage {
 		driver.findElement(passwordTB).sendKeys(password);
 		driver.findElement(submitBtn).click();
 	}
-	
+
 	public void clickEditButton(){
 
 		System.out.println("clickEditButton");
+		helperObj.highLightElement(driver.findElement(editBtn));
 		driver.findElement(editBtn).click();
 
 	}
@@ -92,64 +94,52 @@ public class UpdateProfilePage {
 	 * This method will choose random number to edit that many fields only. 
 	 * @throws IOException 
 	 */
-	
+
 	public void editRandomFields() throws IOException{
 
 		System.out.println("editData");
-		//rand = new Random();
 		//choosing a random number to update that many number of fields
 		int number = 1+rand.nextInt(13);
 		System.out.println("We are going to update "+number+" fields");
 
 		for(int i=1;i<=number;i++){
-			
+
 			//String field = dataFields[num]; This version of java takes only int in cases, not String types.
 			int num = 1+rand.nextInt(13);
 			System.out.println("editing the field no."+num );
 			switch(num){
 			case 1 :
 				editFirstName();
-				fName++;
 				break;
 			case 2 :
 				editLastName();
-				lName++;
 				break;
 			case 3 :
 				editLicense();
-				license++;
 				break;
 			case 4 :
 				editSSN();
-				ssn++;
 				break;
 			case 5 :
 				editAddress();
-				address++;
 				break;
 			case 6 :
 				editAge();
-				age++;
 				break;
 			case 7 :
 				editWeight();
-				weight++;
 				break;
 			case 8 :
 				editHeight();
-				height++;
 				break;
 			case 9 :
 				editCity();
-				city++;
 				break;
 			case 10 :
 				editState();
-				state++;
 				break;
 			case 11 :
 				editZipCode();
-				zipCode++;
 				break;
 			case 12 :
 				editProviderInfo();
@@ -159,9 +149,8 @@ public class UpdateProfilePage {
 				break;
 			}	
 		}	
-		
 	}
-	
+
 	public void editAllFields() throws IOException{
 
 		editFirstName();
@@ -179,87 +168,67 @@ public class UpdateProfilePage {
 		editInsuranceInfo();
 
 	}
-	
-	public void validateUpdating(){
-		
-		SoftAssert sa = new SoftAssert();
-		sa.assertTrue(validateFirstName());
-		sa.assertTrue(validateLastName());
-		sa.assertTrue(validateLicense());
-		sa.assertTrue(validateSSN());
-		sa.assertTrue(validateAddress());
-		sa.assertTrue(validateAge());
-		sa.assertTrue(validateWeight());
-		sa.assertTrue(validateHeight());
-		sa.assertTrue(validateCity());
-		sa.assertTrue(validateState());
-		sa.assertTrue(validateZipCode());
-		sa.assertAll();
+
+	/**
+	 * After updating all the fields, getting the field value and storing it in a hash map to validate
+	 * @return HashMap of displayed field values
+	 */
+	public HashMap <String, String> getFieldsValue(){
+
+		//clickEditButton();
+		hMap1.put("FName", driver.findElement(firstNameTB).getAttribute("value"));
+		hMap1.put("LName", driver.findElement(lastNameTB).getAttribute("value"));
+		hMap1.put("License", driver.findElement(licenseTB).getAttribute("value"));
+		hMap1.put("SSN", driver.findElement(SSNTB).getAttribute("value"));
+		hMap1.put("Address", driver.findElement(addressTB).getAttribute("value"));
+		hMap1.put("Age", driver.findElement(ageTB).getAttribute("value"));
+		hMap1.put("Weight", driver.findElement(weightTB).getAttribute("value"));
+		hMap1.put("Height", driver.findElement(heightTB).getAttribute("value"));
+		hMap1.put("City", driver.findElement(cityTB).getAttribute("value"));
+		hMap1.put("State", driver.findElement(stateTB).getAttribute("value"));
+		hMap1.put("ZipCode", driver.findElement(zipCodeTB).getAttribute("value"));
+
+		//TRying
+		//Assert.assertEquals(hMap1, hMap, "Hash Map Values match");
+		return hMap1;
 	}
-	public void validateUpdatingRandomFields(){
-		
-		SoftAssert sa =  new SoftAssert();
-		if(fName>0){ sa.assertTrue(validateFirstName());}
-		if(lName>0){ sa.assertTrue(validateLastName());}
-		if(license>0){ sa.assertTrue(validateLicense());}
-		if(ssn>0){ sa.assertTrue(validateSSN());}
-		if(address>0){ sa.assertTrue(validateAddress());}
-		if(age>0){ sa.assertTrue(validateAge());}
-		if(weight>0){ sa.assertTrue(validateWeight());}
-		if(height>0){ sa.assertTrue(validateHeight());}
-		if(city>0){ sa.assertTrue(validateCity());}
-		if(state>0){ sa.assertTrue(validateState());}
-		if(zipCode>0){ sa.assertTrue(validateZipCode());}
-		sa.assertAll();
-		
+
+	public boolean validateUpdating(){
+
+		boolean result = false;
+		if (getFieldsValue().equals(hMap))
+			result = true;
+
+		return result;
 	}
 	public void editFirstName(){
 
+		
 		we = driver.findElement(firstNameTB);
+		helperObj.highLightElement(we);
 		System.out.println("Edit FirstName "+we.getText());
 		String firstNameValue = "QAEditFirstName"+(char)(65+rand.nextInt(26));
 		we.clear();
 		we.sendKeys(firstNameValue);
 		hMap.put("FName", firstNameValue);
+		//fName++;
 
 	}
-	public boolean validateFirstName(){
-		
-		boolean fNameUpdated = false;
-		we = driver.findElement(firstNameTB);
-		String primaryFNameValue = we.getAttribute("value");
-		//primaryHMap.put("FName", primaryFNameValue);
-		if(hMap.get("FName").equals(primaryFNameValue)){
-			fNameUpdated = true;
-		}
-		return fNameUpdated;
-		
-	}
-
 	public void editLastName(){
 
 		we = driver.findElement(lastNameTB);
+		helperObj.highLightElement(we);
 		String lastNameValue = "QAEditLastName"+(char)(65+rand.nextInt(26));
 		we.clear();
 		we.sendKeys(lastNameValue);
 		hMap.put("LName", lastNameValue);
-		
-	}
-	public boolean validateLastName(){
-		
-		boolean lNameUpdated = false;
-		we = driver.findElement(lastNameTB);
-		String primaryLNameValue = we.getAttribute("value");
-		//primaryHMap.put("LName", primaryLNameValue);
-		if(hMap.get("LName").equals(primaryLNameValue)){
-			lNameUpdated = true;
-		}
-		return lNameUpdated;
-	}
+		//lName++;
 
+	}
 	public void editLicense() throws IOException{
 
 		we = driver.findElement(licenseTB);
+		helperObj.highLightElement(we);
 		String licenseValue = Calendar.getInstance().getTimeInMillis()%100000000+"";
 		//String licenseValue = 10000000+ rand.nextInt(89999999)+"";
 		System.out.println("Total no. digits in license is :"+licenseValue.length());
@@ -268,230 +237,121 @@ public class UpdateProfilePage {
 		we.sendKeys(licenseValue);
 		hMap.put("License", licenseValue);
 		helperObj.captureScreenshot("licenseErr");
+		//license++;
 	}
-	
-	public boolean validateLicense(){
-		
-		boolean licenseUpdated = false;
-		we = driver.findElement(licenseTB);
-		String primaryLicenseValue = we.getAttribute("value");
-		//primaryHMap.put("License", primaryLicenseValue);
-		if(hMap.get("License").equals(primaryLicenseValue)){
-			licenseUpdated = true;
-		}
-		System.out.println("primaryLicenseValue is "+primaryLicenseValue);
-		System.out.println("Hash Map Value is "+hMap.get("License"));
-		return licenseUpdated;
-	}
-
 	public void editSSN(){
 
 		we = driver.findElement(SSNTB);
+		helperObj.highLightElement(we);
 		String ssnValue = Calendar.getInstance().getTimeInMillis()%1000000000+"";
 		we.clear();
 		we.sendKeys(ssnValue);
 		hMap.put("SSN", ssnValue);
-		
-	}
-	//How to check if it's already existing in the the database? --- The app is telling already.
+		//ssn++;
 
-	public boolean validateSSN(){
-		
-		boolean SSNUpdated = false;
-		we = driver.findElement(SSNTB);
-		String primarySSNValue =  we.getAttribute("value");
-		//primaryHMap.put("SSN", primarySSNValue);
-		if(hMap.get("SSN").equals(primarySSNValue)){
-			SSNUpdated = true;
-		}
-		return SSNUpdated;
-		
 	}
-	
 	public void editAddress(){
 
 		we = driver.findElement(addressTB);
+		helperObj.highLightElement(we);
 		String addressValue = 1+rand.nextInt(999)+", QAEditAddress";
 		we.clear();
 		we.sendKeys(addressValue);
 		hMap.put("Address", addressValue);
+		//address++;
 
 	}
-	
-	public boolean validateAddress(){
-		
-		boolean addressUpdated = false;
-		we = driver.findElement(addressTB);
-		String primaryAddressValue =  we.getAttribute("value");
-		//primaryHMap.put("Address", primaryAddressValue);
-		if(hMap.get("Address").equals(primaryAddressValue)){
-			addressUpdated = true;
-		}
-		return addressUpdated;
-		
-	}
-
 	public void editAge(){
 
 		we = driver.findElement(ageTB);
+		helperObj.highLightElement(we);
 		String ageValue = 18+rand.nextInt(82)+"";//18 and older only can login
 		we.clear();
 		we.sendKeys(ageValue);
 		hMap.put("Age", ageValue);
+		//age++;
 
-	}
-	
-	public boolean validateAge(){
-		
-		boolean ageUpdated = false;
-		we = driver.findElement(ageTB);
-		String primaryAgeValue =  we.getAttribute("value");
-		//primaryHMap.put("Age", primaryAgeValue);
-		if(hMap.get("Age").equals(primaryAgeValue)){
-			ageUpdated = true;
-		}
-		return ageUpdated;
-		
 	}
 	public void editWeight(){
 
 		we = driver.findElement(weightTB);
+		helperObj.highLightElement(we);
 		String weightValue = 20+rand.nextInt(200)+"";//metric or US Standard? 
 		we.clear();
 		we.sendKeys(weightValue);
 		hMap.put("Weight", weightValue);
+		//weight++;
 
-	}
-	
-	public boolean validateWeight(){
-		
-		boolean weightUpdated = false;
-		we = driver.findElement(weightTB);
-		String primaryWeightValue =  we.getAttribute("value");
-		//primaryHMap.put("Weight", primaryWeightValue);
-		if(hMap.get("Weight").equals(primaryWeightValue)){
-			weightUpdated = true;
-		}
-		return weightUpdated;
-		
 	}
 	public void editHeight(){
 
 		we = driver.findElement(heightTB);
+		helperObj.highLightElement(we);
 		String heightValue = 30+rand.nextInt(200)+"";//metric or US standard?
 		we.clear();
 		we.sendKeys(heightValue);
 		hMap.put("Height", heightValue);
+		//height++;
 
 	}
-	
-	public boolean validateHeight(){
-		
-		boolean heightUpdated = false;
-		we = driver.findElement(heightTB);
-		String primaryHeightValue =  we.getAttribute("value");
-		//primaryHMap.put("Height", primaryHeightValue);
-		if(hMap.get("Height").equals(primaryHeightValue)){
-			heightUpdated = true;
-		}
-		return heightUpdated;
-	
-	}
-	
 	public void editCity(){
 
 		int noOfChars = 7;
 		we = driver.findElement(cityTB);
+		helperObj.highLightElement(we);
 		String cityValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(cityValue);
 		hMap.put("City", cityValue);
+		//city++;
 
-	}
-	
-	public boolean validateCity(){
-		
-		boolean cityUpdated = false;
-		we = driver.findElement(cityTB);
-		String primaryCityValue =  we.getAttribute("value");
-		//primaryHMap.put("City", primaryCityValue);
-		if(hMap.get("City").equals(primaryCityValue)){
-			cityUpdated = true;
-		}
-		return cityUpdated;
-		
 	}
 	public void editState() throws IOException{
 
 		we = driver.findElement(stateTB);
+		helperObj.highLightElement(we);
 		String stateValue = Utility.getRandomState();
 		we.clear();
 		we.sendKeys(stateValue);
 		hMap.put("State", stateValue);
 		helperObj.captureScreenshot("stateErr");
+		//state++;
 
 	}
-	
-	public boolean validateState(){
-		
-		boolean stateUpdated = false;
-		we = driver.findElement(stateTB);
-		String primaryStateValue =  we.getAttribute("value");
-		//primaryHMap.put("State", primaryStateValue);
-		if(hMap.get("State").equals(primaryStateValue)){
-			stateUpdated = true;
-		}
-		return stateUpdated;
-		
-	}
+
 	public void editZipCode(){
 
 		int noOfDigits = 5;
 		we = driver.findElement(zipCodeTB);
+		helperObj.highLightElement(we);
 		String zipCodeValue =  Utility.getRandomNoOfDigits(noOfDigits)+"";
 		we.clear();
 		we.sendKeys(zipCodeValue);
 		hMap.put("ZipCode", zipCodeValue);
+		//zipCode++;
 	}
-	
-	public boolean validateZipCode(){
-		
-		boolean zipCodeUpdated = false;
-		we = driver.findElement(zipCodeTB);
-		String primaryZipCodeValue =  we.getAttribute("value");
-		//primaryHMap.put("ZipCode", primaryZipCodeValue);
-		if(hMap.get("ZipCode").equals(primaryZipCodeValue)){
-			zipCodeUpdated = true;
-		}
-		return zipCodeUpdated;
-		
-	}
-
 	public void editProviderInfo(){
 
 		int noOfChars = 6;
 		we = driver.findElement(providerInfoTB);
-		//String primaryProviderInfo = we.getText();
-		//primaryHMap.put("ProviderInfo", primaryProviderInfo);
+		helperObj.highLightElement(we);
 		String providerInfoValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(providerInfoValue);
-		hMap.put("ProviderInfo", providerInfoValue);
+		//hMap.put("ProviderInfo", providerInfoValue);
 
 	}
 	public void editInsuranceInfo(){
 
 		int noOfChars = 10;
 		we = driver.findElement(insuranceInfoTB);
-		//String primaryInsuranceInfo =  we.getAttribute("value");
-		//primaryHMap.put("InsuranceInfo", primaryInsuranceInfo);
+		helperObj.highLightElement(we);
 		String providerInsuranceInfoValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(providerInsuranceInfoValue);
-		hMap.put("InsuranceInfo", providerInsuranceInfoValue);
+		//hMap.put("InsuranceInfo", providerInsuranceInfoValue);
 
-	}
-
+	}		
 
 	/**
 	 * clickOnSaveButton to click the save button. In a happy path, alert for update confirmation will happen.
@@ -501,10 +361,10 @@ public class UpdateProfilePage {
 	 */
 
 	public String clickOnSaveButton() throws IOException{
-		
+
 		String msg="";
 		try{
-					
+			helperObj.highLightElement(driver.findElement(saveBtn));	
 			driver.findElement(saveBtn).click();
 			Alert alert = driver.switchTo().alert();
 			msg = alert.getText();
@@ -513,10 +373,10 @@ public class UpdateProfilePage {
 		catch(Exception e){
 			System.out.println("Exception got: "+e.getMessage());
 			msg = checkError();
-			
+
 		}
 		return msg;
-		
+
 	}
 	/**
 	 * This method checks for any invalid entry (error messages) in the field and send the valid ones.
@@ -547,6 +407,7 @@ public class UpdateProfilePage {
 				System.out.println(errElement);
 				String xpath = "//p[@id='"+errElement+"']/preceding-sibling::input";
 				if(webElement.getText().contains("license")){
+					helperObj.highLightElement(driver.findElement(By.xpath(xpath)));
 					driver.findElement(By.xpath(xpath)).sendKeys("12345678");
 					hMap.put("License", "12345678");
 					helperObj.captureScreenshot("license");
@@ -554,17 +415,15 @@ public class UpdateProfilePage {
 				if(webElement.getText().contains("state")){
 					String state = (hMap.get("State")).replaceAll("\\s", "");
 					driver.findElement(By.xpath(xpath)).clear();
+					helperObj.highLightElement(driver.findElement(By.xpath(xpath)));
 					driver.findElement(By.xpath(xpath)).sendKeys(state);
 					hMap.put("State", state);
 					helperObj.captureScreenshot("State");
 				}
-
-
 			}
-
 		}
 		try{
-			
+			helperObj.highLightElement(driver.findElement(saveBtn));
 			driver.findElement(saveBtn).click();
 			Alert alert = driver.switchTo().alert();
 			msg = alert.getText();
@@ -572,7 +431,7 @@ public class UpdateProfilePage {
 		}
 		catch(Exception e){
 			System.out.println("Exception got: "+e.getMessage());
-			
+
 		}
 		return msg;
 

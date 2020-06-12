@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class RegistrationPatientTests extends TestBase {
 	
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
-	String filePath = "C:\\Users\\Nithyakalyani\\iitMMPGit\\SeleniumExample\\mmpData\\testData.xlsx";
+	String filePath = System.getProperty("user.dir")+"\\Data\\testData.xlsx";
 	HelperClass helperObj;
 	RegistrationPatientPage RPPage;
 	

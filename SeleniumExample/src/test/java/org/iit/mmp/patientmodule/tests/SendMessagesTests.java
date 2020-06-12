@@ -16,7 +16,7 @@ public class SendMessagesTests extends TestBase{
 	HelperClass helperObj;
 	SendMessagePage SMPage;
 	
-	String filePath = "C:\\Users\\Nithyakalyani\\iitMMPGit\\SeleniumExample\\mmpData\\loginTestData.xls";
+	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
 	String URL ="http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
 	String urlAdminLogin = "http://96.84.175.78/MMP-Release2-Admin-Build.2.1.000/login.php";
 	String name;

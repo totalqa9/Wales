@@ -15,7 +15,7 @@ public class MessagesAdminModuleTests extends TestBase{
 	MessagesAdminModulePage MAMPage;
 	
 	String URL = "http://96.84.175.78/MMP-Release2-Admin-Build.2.1.000/login.php";
-	String filePath = "C:\\workspace\\SeleniumExample\\mmpData\\testData.xlsx";
+	String filePath = System.getProperty("user.dir")+"\\Data\\testData.xlsx";
 	String moduleName = "Logout";
 	HashMap <String, String> hMap;
 	String name;

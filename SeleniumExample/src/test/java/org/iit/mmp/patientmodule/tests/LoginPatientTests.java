@@ -17,7 +17,7 @@ public class LoginPatientTests extends TestBase{
 	LoginPatientPage loginPage;
 	
 	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/";
-	String filePath = "C:\\Users\\Nithyakalyani\\iitMMPGit\\SeleniumExample\\mmpData\\loginTestData.xls";
+	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
 	String moduleName = "Logout";
 	
 	

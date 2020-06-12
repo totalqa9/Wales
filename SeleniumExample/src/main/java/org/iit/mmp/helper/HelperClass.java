@@ -7,9 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -84,17 +86,6 @@ public class HelperClass {
 		FileUtils.copyFile(sourceFile,destFile);
 		System.out.println(destinationPath);
 		System.out.println("Exiting Screenshot");
-		/*TakesScreenshot ts = (TakesScreenshot) driver;
-		File srcFile = ts.getScreenshotAs(OutputType.FILE);
-		System.out.println(srcFile.getAbsolutePath());
-		File destFile = new File(fLocation);
-		try {
-			FileHandler.copy(srcFile, destFile);
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		*/
 		
 	}
 	public WebDriver switchToAFrameAvailable(String frameId,int timeinSecs)
@@ -103,6 +94,13 @@ public class HelperClass {
 		driver = wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameId));
 		return driver;
 	}
+	public void highLightElement(WebElement ele){
+		
+		JavascriptExecutor js =(JavascriptExecutor)driver;
+
+		js.executeScript("arguments[0].setAttribute('style', 'background:yellow; border:2px solid red;')", ele);
+		
+		}
 
 
 }
