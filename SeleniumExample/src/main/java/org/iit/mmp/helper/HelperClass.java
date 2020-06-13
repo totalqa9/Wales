@@ -94,6 +94,9 @@ public class HelperClass {
 		driver = wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameId));
 		return driver;
 	}
+	public void switchToSideBar(){
+		driver.findElement(By.xpath("//div[@class='left-sidebar']")).click();
+	}
 	public void highLightElement(WebElement ele){
 		
 		JavascriptExecutor js =(JavascriptExecutor)driver;

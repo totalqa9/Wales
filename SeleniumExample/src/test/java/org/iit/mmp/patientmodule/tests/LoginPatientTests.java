@@ -17,7 +17,7 @@ public class LoginPatientTests extends TestBase{
 	HelperClass helperObj;
 	LoginPatientPage loginPage;
 	
-	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/";
+	String URL;
 	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
 	String moduleName = "Logout";
 	
@@ -27,6 +27,7 @@ public class LoginPatientTests extends TestBase{
 		
 		instantiateDriver();
 		helperObj = new HelperClass(driver);
+		URL = pro.getProperty("NAMTGURL");
 		helperObj.launchApplicationURL(URL);
 		loginPage = new LoginPatientPage(driver);
 		loginPage.getPatientLoginpage();

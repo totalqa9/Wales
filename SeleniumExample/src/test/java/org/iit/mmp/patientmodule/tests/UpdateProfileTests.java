@@ -25,7 +25,7 @@ public class UpdateProfileTests extends TestBase{
 	
 	SoftAssert sa;
 
-	@Test (dataProvider="testData", description="US_005 UpdateProfile", groups={"US_005","regression","sanity","patientmodule"})
+	@Test (dataProvider="testData", description="US_003 UpdateProfile", groups={"US_003","regression","sanity","patientmodule"})
 	public void UpdatePatientPofile(String uName, String password) throws Exception {
 
 		

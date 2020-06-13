@@ -1,15 +1,18 @@
 package org.iit.mmp.patientmodule.pages;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.utility.Utility;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 public class RegistrationPatientPage{
@@ -44,6 +47,7 @@ public class RegistrationPatientPage{
 	By securityIDTB = By.id("security");
 	By answerTB = By.id("answer");
 	By registerBtn2 = By.name("register");
+	
 	
 	
 	//write methods to catch the error labels and send it again
@@ -160,17 +164,17 @@ public class RegistrationPatientPage{
 	
 	public void enterUserDetails()
 	{
-		String emailValue = "WalesQA"+rand.nextInt(100)+"@gmail.com";
+		String emailValue = "WalesQAMMP"+rand.nextInt(100)+"@gmail.com";
 		driver.findElement(emailIDTB).sendKeys(emailValue);
 		hMap.put("Email", emailValue);
 		
 		
-		String usernameValue = "WalesQA"+rand.nextInt(100);
+		String usernameValue = "WalesQAMMP"+rand.nextInt(100);
 		driver.findElement(userNameTB).sendKeys(usernameValue);
 		hMap.put("Username", usernameValue);
 		
 	 
-		String passwordValue="WalesQA"+rand.nextInt(100);
+		String passwordValue="WalesQAMMP"+rand.nextInt(100);
 		driver.findElement(passwordTB).sendKeys(passwordValue);
 		hMap.put("Password", passwordValue);
 		
@@ -189,9 +193,60 @@ public class RegistrationPatientPage{
 		hMap.put("SecurityAnswer", answerValue);
 		
 	}
-	public void clickOnSaveButton()
+	public String clickOnSaveButton() throws IOException
 	{
-		driver.findElement(registerBtn2).click();
+		//driver.findElement(registerBtn2).click();
+		String msg="";
+		try{
+			driver.findElement(registerBtn2).click();
+			Alert alert = driver.switchTo().alert();
+			msg = alert.getText();
+			alert.accept();
+		}
+		catch(Exception e){
+			System.out.println("Exception got: "+e.getMessage());
+			msg = checkError();
+
+		}
+		return msg;
+
+	}
+	public String checkError() throws IOException{
+
+		String msg = "";
+		System.out.println("Inside the CheckError method");
+		String errElement = "";
+		List <WebElement> errElements = driver.findElements(By.tagName("p"));
+		System.out.println("No. Of Error Elements Present "+errElements.size());
+		for (WebElement webElement : errElements) {
+
+			if(webElement.isDisplayed()){
+
+				System.out.println(webElement.getText());
+				errElement = webElement.getAttribute("id");
+				System.out.println(errElement);
+				String xpath = "//p[@id='"+errElement+"']/preceding-sibling::input";
+				if(webElement.getText().contains("license")){
+					helperObj.highLightElement(driver.findElement(By.xpath(xpath)));
+					driver.findElement(By.xpath(xpath)).sendKeys("12345678");
+					hMap.put("License", "12345678");
+					helperObj.captureScreenshot("license");
+				}
+			}
+		}
+		try{
+			helperObj.highLightElement(driver.findElement(registerBtn2));
+			driver.findElement(registerBtn2).click();
+			Alert alert = driver.switchTo().alert();
+			msg = alert.getText();
+			alert.accept();
+		}
+		catch(Exception e){
+			System.out.println("Exception got: "+e.getMessage());
+
+		}
+		return msg;
+
 	}
 	public void fillData()
 	{
@@ -210,8 +265,7 @@ public class RegistrationPatientPage{
 		enterPharmaDetails();
 		enterUserDetails();
 		enterSecurityInfo();
-		clickOnSaveButton();
-	 	 
+			 	 
 	}
 
 }

@@ -18,15 +18,15 @@ public class SendMessagesTests extends TestBase{
 	SendMessagePage SMPage;
 	
 	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
-	String URL ="http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
-	String urlAdminLogin = "http://96.84.175.78/MMP-Release2-Admin-Build.2.1.000/login.php";
+	String URL;
+	String urlAdmin;
 	String name;
 	String subject = "Symptoms";
 	String message = "Please verify the symptoms";
 	String actualMsg;
 	String expectedMsg = "Messages Successfully sent.";
-	String adminUName = "shak";
-	String adminPassword = "9ol.<KI*";
+	String adminUName;
+	String adminPassword;
 	
 	
 	@Test (dataProvider = "testData", description="US_009 SendMessageTests",groups={"US_009","regression","sanity","patientmodule"})
@@ -34,17 +34,22 @@ public class SendMessagesTests extends TestBase{
 		
 		instantiateDriver();
 		helperObj = new HelperClass(driver);
+		URL = pro.getProperty("URL");
+		urlAdmin = pro.getProperty("urlAdmin");
+		adminUName = pro.getProperty("adminUName");
+		adminPassword = pro.getProperty("adminPassword");
 		helperObj.launchApplicationURL(URL);
 		helperObj.login(uName, password);
 		SMPage = new SendMessagePage(driver);
 		name = SMPage.retrieveFirstName();
+		helperObj.switchToSideBar();
 		helperObj.moduleNavigation("Messages");
 		
 		SMPage.sendMessage(subject, message);
 		actualMsg = SMPage.validateSendMessage();
 		Assert.assertEquals(actualMsg, expectedMsg);
 		helperObj.moduleNavigation("Logout");
-		Assert.assertTrue(SMPage.validateMessageFromAdminModule(adminUName, adminPassword, urlAdminLogin, name, subject, message));
+		Assert.assertTrue(SMPage.validateMessageFromAdminModule(adminUName, adminPassword, urlAdmin, name, subject, message));
 		
 	}
 	
