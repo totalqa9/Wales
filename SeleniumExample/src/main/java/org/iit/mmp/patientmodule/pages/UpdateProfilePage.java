@@ -119,7 +119,7 @@ public class UpdateProfilePage {
 				editLicense();
 				break;
 			case 4 :
-				editSSN();
+				//editSSN();
 				break;
 			case 5 :
 				editAddress();
@@ -157,7 +157,7 @@ public class UpdateProfilePage {
 		editFirstName();
 		editLastName();
 		editLicense();
-		editSSN();
+		//editSSN();
 		editAddress();
 		editAge();
 		editWeight();
@@ -180,7 +180,7 @@ public class UpdateProfilePage {
 		hMap1.put("FName", driver.findElement(firstNameTB).getAttribute("value"));
 		hMap1.put("LName", driver.findElement(lastNameTB).getAttribute("value"));
 		hMap1.put("License", driver.findElement(licenseTB).getAttribute("value"));
-		hMap1.put("SSN", driver.findElement(SSNTB).getAttribute("value"));
+		//hMap1.put("SSN", driver.findElement(SSNTB).getAttribute("value"));
 		hMap1.put("Address", driver.findElement(addressTB).getAttribute("value"));
 		hMap1.put("Age", driver.findElement(ageTB).getAttribute("value"));
 		hMap1.put("Weight", driver.findElement(weightTB).getAttribute("value"));
@@ -200,6 +200,7 @@ public class UpdateProfilePage {
 		if (getFieldsValue().equals(hMap))
 			result = true;
 
+		System.out.println("Validate Updating Result is "+result);
 		return result;
 	}
 	public void editFirstName(){
@@ -421,6 +422,12 @@ public class UpdateProfilePage {
 					hMap.put("State", state);
 					helperObj.captureScreenshot("State");
 				}
+				/*if(webElement.getText().contains("appear")){
+					String value = Utility.getRandomNoOfDigits(9)+"";
+					driver.findElement(By.xpath(xpath)).sendKeys(value);
+					hMap.put("SSN",value);
+					
+				}*/
 			}
 		}
 		try{
