@@ -18,7 +18,7 @@ public class ScheduleAppointmentTests  extends TestBase{
 	HelperClass helperObj;
 	ScheduleAppointmentPage SAPage;
 	
-	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
+	String URL;
 	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
 	String doctorName = "Dr.Charlie";
 	
@@ -27,6 +27,7 @@ public class ScheduleAppointmentTests  extends TestBase{
 		
 		instantiateDriver();
 		helperObj = new HelperClass(driver);
+		URL = pro.getProperty("URL");
 		helperObj.launchApplicationURL(URL);
 		helperObj.login(uName, password);
 		helperObj.moduleNavigation("Schedule Appointment");

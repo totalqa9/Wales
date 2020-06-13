@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 
 public class RegistrationPatientTests extends TestBase {
 	
-	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
+	String URL;
 	String filePath = System.getProperty("user.dir")+"\\Data\\testData.xlsx";
 	HelperClass helperObj;
 	RegistrationPatientPage RPPage;
@@ -20,13 +20,14 @@ public class RegistrationPatientTests extends TestBase {
 	{  
 		instantiateDriver();
 		helperObj = new HelperClass(driver);
+		URL = pro.getProperty("URL");
 		helperObj.launchApplicationURL(URL);
 		RPPage = new RegistrationPatientPage(driver);
 		RPPage.clickRegisterButton();
 		RPPage.fillData();
-		RPPage.clickOnSaveButton();
-		String actual = RPPage.readSuccessMessage();
-		String expected ="Thank you for registering with MMP.";
+		String actual = RPPage.clickOnSaveButton();
+		//String actual = RPPage.readSuccessMessage();
+		String expected ="Thank you for registering with MMP. ";
 		Assert.assertEquals(actual, expected);
 	}
 	

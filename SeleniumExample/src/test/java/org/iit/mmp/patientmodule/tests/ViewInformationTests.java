@@ -18,7 +18,7 @@ public class ViewInformationTests extends TestBase{
 
 	String filePath = System.getProperty("user.dir")+"\\Data\\loginTestData.xls";
 
-	String URL = "http://96.84.175.78/MMP-Release2-Integrated-Build.6.8.000/portal/login.php";
+	String URL;
 	String NavTab = "Information";
 	
 	@Test(dataProvider = "testData", description="US_005 View the information",groups={"US_005","regression","sanity","patientmodule"})
@@ -26,6 +26,7 @@ public class ViewInformationTests extends TestBase{
 	{
 		instantiateDriver();
 		helperObj = new HelperClass(driver);
+		URL = pro.getProperty("URL");
 		helperObj.launchApplicationURL(URL);
 		helperObj.login(uName, password);
 		helperObj.moduleNavigation(NavTab);
