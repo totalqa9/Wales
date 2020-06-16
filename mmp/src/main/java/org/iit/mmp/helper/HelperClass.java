@@ -168,6 +168,10 @@ public class HelperClass {
 		Properties pro = pConfig.loadProperties();
 		driver.get(pro.getProperty("patientPortalUrl"));
 	}
-
+    public void closeDriver() {
+		
+		driver.findElement(By.xpath("//span[contains(text(), 'Logout')]")).click();
+		driver.close();
+	}
 
 }
