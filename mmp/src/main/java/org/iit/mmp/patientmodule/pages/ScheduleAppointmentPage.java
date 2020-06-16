@@ -1,5 +1,7 @@
 package org.iit.mmp.patientmodule.pages;
+
 import java.util.HashMap;
+
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.utility.Utility;
 import org.openqa.selenium.By;
@@ -7,13 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-/**
- * Page Object Class
- * @author qa
- *
- */
 public class ScheduleAppointmentPage {
-	
 	WebDriver driver;
 	HelperClass helperObj ;
 	
@@ -31,10 +27,12 @@ public class ScheduleAppointmentPage {
 		this.driver = driver;
 		helperObj = new HelperClass(driver);
 	}
+	
 	public void clickOnCreateAppointmentButton()
 	{
 		driver.findElement(createAppointmentButton).click();
 	}
+	
 	public HashMap<String, String> selectDoctor(String doctorName) throws InterruptedException
 	{
 		HashMap<String,String> hMap= new HashMap<String,String>();
@@ -55,6 +53,7 @@ public class ScheduleAppointmentPage {
 		hMap.put("doctorName", doctorName);
 		return hMap;
 	}
+	
 	public boolean validateAppointmentDetailsinHomePage(HashMap<String,String> hMap)
 	{
 		boolean result = false;
@@ -89,6 +88,5 @@ public class ScheduleAppointmentPage {
 		return result;
 
 	}
-
 
 }

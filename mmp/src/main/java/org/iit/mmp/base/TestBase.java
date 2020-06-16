@@ -8,10 +8,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.BeforeClass;
 import io.github.bonigarcia.wdm.WebDriverManager;
-public class TestBase{
+public class TestBase {
 	protected WebDriver driver;
+	
 	@BeforeClass
-	public void instantiateDriver() throws IOException 
+	public void instantiateDriver() throws IOException
 	{
 		
 		ProjectConfiguration pConfig = new ProjectConfiguration();	
@@ -27,5 +28,7 @@ public class TestBase{
 			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
 		}
+		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
 	}
 }
