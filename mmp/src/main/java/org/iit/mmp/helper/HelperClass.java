@@ -75,7 +75,7 @@ public class HelperClass {
 			e.printStackTrace();
 		}
 	} 
-
+    
 	public void captureScreenshot(String tc_Name) throws IOException
 	{
 

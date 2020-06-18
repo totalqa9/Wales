@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -41,23 +43,20 @@ public class Utility {
 
 	public static String getRandomState(){
 
-		String state = "";
-		String[] sArray = new String [50];
-		sArray[0] = "Alabama";sArray[1] = "Alaska";sArray[2] = "Arizona";sArray[3] = "Arkansas";sArray[4] = "California";
-		sArray[5] = "Colorado";sArray[6] = "Connecticut";sArray[7] = "Delaware";sArray[8] = "Florida";sArray[9] = "Georgia";
-		sArray[10] = "Hawaii";sArray[11] = "Idaho";sArray[12] = "Illinois";sArray[13] = "Indiana";sArray[14] = "Iowa";
-		sArray[15] = "Kansas";sArray[16] = "Kentucky";sArray[17] = "Louisiana";sArray[18] = "Maine";sArray[19] = "Maryland";
-		sArray[20] = "Massachusetts";sArray[21] = "Michigan";sArray[22] = "Minnesota";sArray[23] = "Mississippi";sArray[24] = "Missouri";
-		sArray[25] = "Montana";sArray[26] = "Nebraska";sArray[27] = "Nevada";sArray[28] = "New Hampshire";sArray[29] = "New Jersey";
-		sArray[30] = "New Mexico";sArray[31] = "New York";sArray[32] = "North Carolina";sArray[33] = "North Dakota";sArray[34] = "Ohio";
-		sArray[35] = "Oklahoma";sArray[36] = "Oregon";sArray[37] = "Pennsylvania";sArray[38] = "Rhode Island";sArray[39] = "South Carolina";
-		sArray[40] = "South Dakota";sArray[41] = "Tennessee";sArray[42] = "Texas";sArray[43] = "Utah";sArray[44] = "Vermont";
-		sArray[45] = "Virginia";sArray[46] = "Washington";sArray[47] = "West Virginia";sArray[48] = "Wisconsin";sArray[49] = "Wyoming";
-		int num = rand.nextInt(49);
-		state = sArray[num];
-		System.out.println(state);		
-		return state;
-	}
+		  String state = "";
+
+		  String[] sArray = {"Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+		    "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine","Maryland", "Massachusetts", "Michigan",
+		    "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York",
+		    "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota",
+		    "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming" };
+
+		  int num = rand.nextInt(49);
+		  state = sArray[num];
+		  System.out.println(state);  
+		  return state;
+		 }
+
 
 	public static int getRandomNoOfDigits(int noOfDigits){
 
@@ -212,5 +211,39 @@ public class Utility {
 			exp.printStackTrace();
 		}
 		return cellData;
+	}
+	public String[][] readXlsFile(String filepath,String SheetName) throws IOException
+	{
+		File f=new File(filepath);
+		FileInputStream fis=new FileInputStream(f);
+		
+		HSSFWorkbook hWB=new HSSFWorkbook(fis);
+		HSSFSheet sheet=hWB.getSheet(SheetName);
+		
+		//No of rows
+		int rows=sheet.getPhysicalNumberOfRows();
+		System.out.println("Row count:::" +rows);
+		
+		//no of columns
+		int cols=sheet.getRow(0).getLastCellNum();
+		System.out.println("Column count:::" +cols);
+		
+		int k=0;
+		
+		String[][] data=new String[rows-1][cols];
+		
+		//If the first row contains the column names
+		for(int i=1;i<rows;i++)
+		{
+			for(int j=0;j<cols;j++)
+			{
+				data[k][j]=sheet.getRow(i).getCell(j).toString();
+				System.out.println(data[k][j]);
+			}
+			k++;
+		}
+				
+		return data;
+		
 	}
 }
