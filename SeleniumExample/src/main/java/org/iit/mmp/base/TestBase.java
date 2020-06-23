@@ -5,11 +5,16 @@ import java.util.Properties;
 //import java.util.concurrent.TimeUnit;
 
 import org.iit.mmp.config.ProjectConfiguration;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.IHookCallBack;
+import org.testng.ITestResult;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Attachment;
 
 public class TestBase {
 	
@@ -34,8 +39,24 @@ public class TestBase {
 		}
 		driver.manage().window().maximize();
 		System.out.println("LastLine of the instatiate method of TestBase");
-
-
 	}
+	/**
+	 * screenShot method is invoked whenever the Testcase is Failed.
+	 * @param name
+	 * @param driver
+	 * @return
+	 */
+	@Attachment(value = "Screenshot of {0}", type = "image/png")
+	public byte[] saveScreenshot(String name, WebDriver driver) {
+		return (byte[]) ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+	}
+ 
+	public void run(IHookCallBack iHookCallBack, ITestResult iTestResult) {
+		iHookCallBack.runTestMethod(iTestResult);
+		if (iTestResult.getThrowable() != null) {
+			this.saveScreenshot(iTestResult.getName(), driver);
+		}
+	}
+	
 
 }

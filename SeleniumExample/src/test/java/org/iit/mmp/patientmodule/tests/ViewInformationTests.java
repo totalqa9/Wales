@@ -6,12 +6,13 @@ import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.patientmodule.pages.ViewInformationPage;
 import org.iit.mmp.utility.Utility;
 import org.testng.Assert;
+import org.testng.IHookable;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import jxl.read.biff.BiffException;
 
 
-public class ViewInformationTests extends TestBase{
+public class ViewInformationTests extends TestBase implements IHookable{
 	
 	HelperClass helperObj;
 	ViewInformationPage VIPage;
@@ -33,6 +34,8 @@ public class ViewInformationTests extends TestBase{
 		VIPage = new ViewInformationPage(driver);
 		boolean result = VIPage.validateInformation();
 		Assert.assertTrue(result);
+		helperObj.moduleNavigation("Logout");
+		helperObj.closeDriver();
 	}
 
 	@DataProvider (name="testData")

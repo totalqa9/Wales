@@ -4,10 +4,11 @@ import org.iit.mmp.base.TestBase;
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.patientmodule.pages.RegistrationPatientPage;
 import org.testng.Assert;
+import org.testng.IHookable;
 import org.testng.annotations.Test;
 
 
-public class RegistrationPatientTests extends TestBase {
+public class RegistrationPatientTests extends TestBase implements IHookable{
 	
 	String URL;
 	String filePath = System.getProperty("user.dir")+"\\Data\\testData.xlsx";
@@ -29,6 +30,7 @@ public class RegistrationPatientTests extends TestBase {
 		//String actual = RPPage.readSuccessMessage();
 		String expected ="Thank you for registering with MMP. ";
 		Assert.assertEquals(actual, expected);
+		helperObj.closeDriver();
 	}
 	
 	

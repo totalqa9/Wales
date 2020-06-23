@@ -49,7 +49,7 @@ public class SendMessagePage {
 	}
 	public String retrieveFirstName(){
 		
-		helperObj.AdminModuleNavigation("Profile");
+		helperObj.adminModuleNavigation("Profile");
 		driver.findElement(editBtn).click();
 		//String name = driver.findElement(firstNameTB).getText();
 		String name = driver.findElement(firstNameTB).getAttribute("value");
@@ -61,7 +61,7 @@ public class SendMessagePage {
 		
 		boolean result = false;
 		helperObj.launchApplicationURL(urlAdminLogin);
-		helperObj.AdminLogin(uName, password);
+		helperObj.adminLogin(uName, password);
 		helperObj.moduleNavigation("Messages");
 		MessagesAdminModulePage adminObj = new MessagesAdminModulePage(driver);
 		//adminObj.initializeVariables();

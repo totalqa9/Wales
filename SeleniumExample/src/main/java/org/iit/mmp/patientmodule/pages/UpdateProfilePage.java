@@ -24,7 +24,6 @@ public class UpdateProfilePage {
 	Random rand;
 	String actual = "Your Profile has been updated.";
 	String expected;
-	//int fName, lName, license, ssn, address, age, weight, height, city, state, zipCode; 
 	WebElement we;
 
 	By userNameTB = By.id("username");
@@ -58,10 +57,10 @@ public class UpdateProfilePage {
 	public boolean validateAfterLogout(String uName, String password, String URL) {
 
 		boolean result = false;
-		clickOnNavigationTab("Logout");
+		helperObj.moduleNavigation("Logout");
 		driver.navigate().to(URL);
 		loginTogetHomePage(uName, password);
-		clickOnNavigationTab("Profile");
+		helperObj.moduleNavigation("Profile");
 		result = validateUpdating();
 		return result;
 
@@ -74,9 +73,6 @@ public class UpdateProfilePage {
 	}
 
 	//Added this again
-	public void closeDriver(){
-		driver.close();
-	}
 	public void loginTogetHomePage(String uName, String password){
 
 		driver.findElement(userNameTB).sendKeys(uName);
@@ -119,7 +115,7 @@ public class UpdateProfilePage {
 				editLicense();
 				break;
 			case 4 :
-				//editSSN();
+				editSSN();
 				break;
 			case 5 :
 				editAddress();
@@ -157,7 +153,7 @@ public class UpdateProfilePage {
 		editFirstName();
 		editLastName();
 		editLicense();
-		//editSSN();
+		editSSN();
 		editAddress();
 		editAge();
 		editWeight();
@@ -171,7 +167,7 @@ public class UpdateProfilePage {
 	}
 
 	/**
-	 * After updating all the fields, getting the field value and storing it in a hash map to validate
+	 * After updating all the fields, getting the field values and storing it in a hash map to validate
 	 * @return HashMap of displayed field values
 	 */
 	public HashMap <String, String> getFieldsValue(){
@@ -180,7 +176,7 @@ public class UpdateProfilePage {
 		hMap1.put("FName", driver.findElement(firstNameTB).getAttribute("value"));
 		hMap1.put("LName", driver.findElement(lastNameTB).getAttribute("value"));
 		hMap1.put("License", driver.findElement(licenseTB).getAttribute("value"));
-		//hMap1.put("SSN", driver.findElement(SSNTB).getAttribute("value"));
+		hMap1.put("SSN", driver.findElement(SSNTB).getAttribute("value"));
 		hMap1.put("Address", driver.findElement(addressTB).getAttribute("value"));
 		hMap1.put("Age", driver.findElement(ageTB).getAttribute("value"));
 		hMap1.put("Weight", driver.findElement(weightTB).getAttribute("value"));
@@ -205,7 +201,6 @@ public class UpdateProfilePage {
 	}
 	public void editFirstName(){
 
-		
 		we = driver.findElement(firstNameTB);
 		helperObj.highLightElement(we);
 		System.out.println("Edit FirstName "+we.getText());
@@ -213,8 +208,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(firstNameValue);
 		hMap.put("FName", firstNameValue);
-		//fName++;
-
 	}
 	public void editLastName(){
 
@@ -224,8 +217,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(lastNameValue);
 		hMap.put("LName", lastNameValue);
-		//lName++;
-
 	}
 	public void editLicense() throws IOException{
 
@@ -239,7 +230,6 @@ public class UpdateProfilePage {
 		we.sendKeys(licenseValue);
 		hMap.put("License", licenseValue);
 		helperObj.captureScreenshot("licenseErr");
-		//license++;
 	}
 	public void editSSN(){
 
@@ -249,8 +239,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(ssnValue);
 		hMap.put("SSN", ssnValue);
-		//ssn++;
-
 	}
 	public void editAddress(){
 
@@ -260,8 +248,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(addressValue);
 		hMap.put("Address", addressValue);
-		//address++;
-
 	}
 	public void editAge(){
 
@@ -271,8 +257,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(ageValue);
 		hMap.put("Age", ageValue);
-		//age++;
-
 	}
 	public void editWeight(){
 
@@ -282,8 +266,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(weightValue);
 		hMap.put("Weight", weightValue);
-		//weight++;
-
 	}
 	public void editHeight(){
 
@@ -293,8 +275,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(heightValue);
 		hMap.put("Height", heightValue);
-		//height++;
-
 	}
 	public void editCity(){
 
@@ -305,8 +285,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(cityValue);
 		hMap.put("City", cityValue);
-		//city++;
-
 	}
 	public void editState() throws IOException{
 
@@ -317,10 +295,7 @@ public class UpdateProfilePage {
 		we.sendKeys(stateValue);
 		hMap.put("State", stateValue);
 		helperObj.captureScreenshot("stateErr");
-		//state++;
-
 	}
-
 	public void editZipCode(){
 
 		int noOfDigits = 5;
@@ -330,7 +305,6 @@ public class UpdateProfilePage {
 		we.clear();
 		we.sendKeys(zipCodeValue);
 		hMap.put("ZipCode", zipCodeValue);
-		//zipCode++;
 	}
 	public void editProviderInfo(){
 
@@ -340,8 +314,6 @@ public class UpdateProfilePage {
 		String providerInfoValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(providerInfoValue);
-		//hMap.put("ProviderInfo", providerInfoValue);
-
 	}
 	public void editInsuranceInfo(){
 
@@ -351,8 +323,6 @@ public class UpdateProfilePage {
 		String providerInsuranceInfoValue = Utility.getRandomString(noOfChars);
 		we.clear();
 		we.sendKeys(providerInsuranceInfoValue);
-		//hMap.put("InsuranceInfo", providerInsuranceInfoValue);
-
 	}		
 
 	/**
@@ -422,12 +392,13 @@ public class UpdateProfilePage {
 					hMap.put("State", state);
 					helperObj.captureScreenshot("State");
 				}
-				/*if(webElement.getText().contains("appear")){
+				if((webElement.getText().contains("appear"))||(webElement.getText().contains("SSN"))){
 					String value = Utility.getRandomNoOfDigits(9)+"";
+					driver.findElement(By.xpath(xpath)).clear();
 					driver.findElement(By.xpath(xpath)).sendKeys(value);
 					hMap.put("SSN",value);
 					
-				}*/
+				}
 			}
 		}
 		try{
@@ -444,7 +415,5 @@ public class UpdateProfilePage {
 		return msg;
 
 	}
-
-
 }
 

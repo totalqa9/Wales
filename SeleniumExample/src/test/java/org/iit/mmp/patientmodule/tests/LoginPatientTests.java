@@ -7,12 +7,13 @@ import org.iit.mmp.base.TestBase;
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.patientmodule.pages.LoginPatientPage;
 import org.iit.mmp.utility.Utility;
+import org.testng.IHookable;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import jxl.read.biff.BiffException;
 
-public class LoginPatientTests extends TestBase{
+public class LoginPatientTests extends TestBase implements IHookable{
 	
 	HelperClass helperObj;
 	LoginPatientPage loginPage;
@@ -33,6 +34,7 @@ public class LoginPatientTests extends TestBase{
 		loginPage.getPatientLoginpage();
 		helperObj.login(uName, password);
 		helperObj.moduleNavigation(moduleName);
+		helperObj.closeDriver();
 				
 	}
 	

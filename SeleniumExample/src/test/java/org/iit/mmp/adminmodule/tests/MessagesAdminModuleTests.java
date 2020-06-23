@@ -1,4 +1,4 @@
-package org.iit.mmp.adminmodule.tests;
+/*package org.iit.mmp.adminmodule.tests;
 
 
 
@@ -39,3 +39,4 @@ public class MessagesAdminModuleTests extends TestBase{
 	
 	
 }
+*/

@@ -7,13 +7,14 @@ import org.iit.mmp.base.TestBase;
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.patientmodule.pages.ScheduleAppointmentPage;
 import org.iit.mmp.utility.Utility;
+import org.testng.IHookable;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 
 
-public class ScheduleAppointmentTests  extends TestBase{
+public class ScheduleAppointmentTests  extends TestBase implements IHookable{
 	
 	HelperClass helperObj;
 	ScheduleAppointmentPage SAPage;
@@ -33,11 +34,14 @@ public class ScheduleAppointmentTests  extends TestBase{
 		helperObj.moduleNavigation("Schedule Appointment");
 		SAPage = new ScheduleAppointmentPage(driver);
 		SAPage.clickOnCreateAppointmentButton();
+		Thread.sleep(3000);
 		HashMap<String,String> hMap = SAPage.selectDoctor(doctorName);
 		SoftAssert sa = new SoftAssert();
 		sa.assertTrue(SAPage.validateAppointmentDetailsinHomePage(hMap));
 		sa.assertTrue(SAPage.validateAppointmentDetailsinSchedulePage(hMap));
 		sa.assertAll();
+		helperObj.moduleNavigation("Logout");
+		helperObj.closeDriver();
 
 	}
 

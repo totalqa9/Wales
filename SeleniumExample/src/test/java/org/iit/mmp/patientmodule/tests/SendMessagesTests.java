@@ -7,12 +7,14 @@ import org.iit.mmp.base.TestBase;
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.patientmodule.pages.SendMessagePage;
 import org.iit.mmp.utility.Utility;
-import org.testng.Assert;
+import org.testng.IHookable;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
 import jxl.read.biff.BiffException;
 
-public class SendMessagesTests extends TestBase{
+public class SendMessagesTests extends TestBase implements IHookable{
 
 	HelperClass helperObj;
 	SendMessagePage SMPage;
@@ -36,7 +38,7 @@ public class SendMessagesTests extends TestBase{
 		helperObj = new HelperClass(driver);
 		URL = pro.getProperty("URL");
 		urlAdmin = pro.getProperty("urlAdmin");
-		adminUName = pro.getProperty("adminUName");
+		adminUName = pro.getProperty("adminUser");
 		adminPassword = pro.getProperty("adminPassword");
 		helperObj.launchApplicationURL(URL);
 		helperObj.login(uName, password);
@@ -47,10 +49,13 @@ public class SendMessagesTests extends TestBase{
 		
 		SMPage.sendMessage(subject, message);
 		actualMsg = SMPage.validateSendMessage();
-		Assert.assertEquals(actualMsg, expectedMsg);
+		SoftAssert sa = new SoftAssert();
+		sa.assertEquals(actualMsg, expectedMsg);
 		helperObj.moduleNavigation("Logout");
-		Assert.assertTrue(SMPage.validateMessageFromAdminModule(adminUName, adminPassword, urlAdmin, name, subject, message));
-		
+		boolean result = SMPage.validateMessageFromAdminModule(adminUName, adminPassword, urlAdmin, name, subject, message);
+		sa.assertTrue(result);
+		sa.assertAll();
+		helperObj.closeDriver();
 	}
 	
 	@DataProvider (name="testData")

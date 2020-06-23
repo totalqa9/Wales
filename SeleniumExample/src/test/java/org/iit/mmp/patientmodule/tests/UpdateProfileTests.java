@@ -1,17 +1,15 @@
 package org.iit.mmp.patientmodule.tests;
-
-
 import java.io.IOException;
 import org.iit.mmp.base.TestBase;
 import org.iit.mmp.helper.HelperClass;
 import org.iit.mmp.patientmodule.pages.UpdateProfilePage;
 import org.iit.mmp.utility.Utility;
+import org.testng.IHookable;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-
-public class UpdateProfileTests extends TestBase{
+public class UpdateProfileTests extends TestBase implements IHookable{
 
 	HelperClass helperObj;
 	UpdateProfilePage UPPage;
@@ -22,7 +20,6 @@ public class UpdateProfileTests extends TestBase{
 	String expected;
 	boolean resultAll;
 	boolean resultSelected;
-	
 	SoftAssert sa;
 
 	@Test (dataProvider="testData", description="US_003 UpdateProfile", groups={"US_003","regression","sanity","patientmodule"})
@@ -35,26 +32,22 @@ public class UpdateProfileTests extends TestBase{
 		helperObj.launchApplicationURL(URL);
 		UPPage = new UpdateProfilePage(driver);
 		UPPage.loginTogetHomePage(uName, password);
-		UPPage.clickOnNavigationTab("Profile"); //to getProfile
+		helperObj.moduleNavigation("Profile"); //to getProfile
 		UPPage.clickEditButton();
 		UPPage.editAllFields();
 		expected = UPPage.clickOnSaveButton();
 		sa = new SoftAssert();
 		sa.assertEquals(actual, expected);
-		//Assert.assertEquals(actual, expected);
 		resultAll = UPPage.validateUpdating();
 		sa.assertTrue(resultAll);
-		//Assert.assertTrue(resultAll);
 		sa.assertTrue(UPPage.validateAfterLogout(uName, password, URL));
-		//Assert.assertTrue(UPPage.validateAfterLogout(uName, password, URL));
 		UPPage.clickEditButton();
 		UPPage.editRandomFields();
 		resultSelected = UPPage.validateUpdating();
 		sa.assertTrue(resultSelected);
 		sa.assertAll();
-		//Assert.assertTrue(resultSelected);
-		UPPage.clickOnNavigationTab("Logout");
-		UPPage.closeDriver();
+		helperObj.moduleNavigation("Logout");
+		helperObj.closeDriver();
 	}
 	
 	@DataProvider(name="testData")
