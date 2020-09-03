@@ -29,6 +29,7 @@ public class TestBase {
 		pro = pConf.loadProperites();
 		String browser = pro.getProperty("browser");
 		if(browser.equalsIgnoreCase("chrome")){
+			System.out.println("Inside if");
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
 		}
